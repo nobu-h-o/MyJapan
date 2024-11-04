@@ -1,0 +1,63 @@
+#flipbook {
+    display: none; /* 初期状態で非表示 */
+    width: 800px;
+    height: 600px;
+    margin: 50px auto;
+}
+
+#flipbook .hard {
+    height: 100%; /* コンテナ全体の高さに対応 */
+    z-index: 100;
+    background: #333;
+    color: #fff;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#flipbook .page {
+    height: 100%; /* コンテナ全体の高さに対応 */
+    z-index: 100;
+    border: 3px solid #ccc; /* ページの枠線 */
+    background: #f0f0f0;
+    color: #333;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.left-number {
+    left: 20px;
+}
+
+.right-number {
+    right: 20px;
+}
+
+#map1{ height: 100%; width: 100%}
+#map2{ height: 100%; width: 100%}
+
+#download {
+    display: none; /* 初期状態で非表示 */
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #f1b1b8; /* ボタンの背景色 */
+    color: white; /* ボタンのテキスト色 */
+    text-decoration: none; /* 下線を消す */
+    border-radius: 5px; /* 角を丸くする */
+}
+
+#download img {
+    margin-right: 10px; /* 画像とテキストの間のスペース */
+    vertical-align: middle; /* 画像の縦位置を中央にする */
+}

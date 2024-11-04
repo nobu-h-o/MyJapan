@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/stylesheets/style.css">
+    <link rel="stylesheet" href="assets/stylesheets/sakura.min.css">
+    <link rel="stylesheet" href="assets/stylesheets/turn.css">
+    <title>MyJapan</title>
+</head>
+<body>
+<section id="Title" class="visible">
+    <div class="Text titleText">
+        <h1>Welcome To Japan</h1>
+        <p>Make a Personalized Travel Plan by Answering 6 Questions!</p>
+        <button class="next rectangle">Start</button>
+    </div>
+</section>
+
+<section id="Q1">
+    <div class="Text">
+        <h1>Q1. Where are you visiting?</h1>
+        <select id="preference1" required>
+            <option value="">Select an option</option>
+            <option value="Hokkaido">Hokkaido</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="Kyoto">Kyoto</option>
+            <option value="Osaka">Osaka</option>
+            <option value="Okinawa">Okinawa</option>
+        </select>
+        <div class="navigation">
+            <button class="next round">></button>
+        </div>
+    </div>
+</section>
+
+<section id="Q2">
+    <div class="Text">
+        <h1>Q2. How long is your trip?</h1>
+        <div class="days-input">
+            <button id="decrease-days" class="round">-</button>
+            <input type="number" id="preference2" min="0" max="7" value="5">
+            <label for="preference2">days</label>
+            <button id="increase-days" class="round">+</button>
+        </div>
+        <div class="navigation">
+            <button class="prev round"><</button>
+            <button class="next round">></button>
+        </div>
+    </div>
+</section>
+
+<section id="Q3">
+    <div class="Text">
+        <h1>Q3. How old are you?</h1>
+        <div class="age-input">
+            <button id="decrease-age" class="round">-</button>
+            <input type="number" id="preference3" min="0" max="120" value="25">
+            <label for="preference3">years</label>
+            <button id="increase-age" class="round">+</button>
+        </div>
+        <div class="navigation">
+            <button class="prev round"><</button>
+            <button class="next round">></button>
+        </div>
+    </div>
+</section>
+
+<section id="Q4">
+    <div class="Text">
+        <h1>Q4. How do you feel about unknown places and experiences?</h1>
+        <select id="preference4" required>
+            <option value="">Select an option</option>
+            <option value="Sounds fun!">Sounds fun!</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Would like to visit famous areas first">Would like to visit famous areas first</option>
+        </select>
+        <div class="navigation">
+            <button class="prev round"><</button>
+            <button class="next round">></button>
+        </div>
+    </div>
+</section>
+
+<section id="Q5">
+    <div class="Text">
+        <h1>Q5. What is the most important purpose of travel?</h1>
+        <select id="preference5" required>
+            <option value="">Select an option</option>
+            <option value="Sightseeing">Sightseeing</option>
+            <option value="Learning about the country's history and culture">Learning about the country's history and culture</option>
+            <option value="Sports and outdoor activities">Sports and outdoor activities</option>
+            <option value="Food and Cuisine">Food and Cuisine</option>
+            <option value="Interacting with the locals">Interacting with the locals</option>
+        </select>
+        <div class="navigation">
+            <button class="prev round"><</button>
+            <button class="next round">></button>
+        </div>
+    </div>
+</section>
+
+<section id="Q6">
+    <div class="Text">
+        <h1>Q6. Indoors or Outdoors?</h1>
+        <select id="preference6" required>
+            <option value="">Select an option</option>
+            <option value="Indoors">Indoors</option>
+            <option value="Outdoors">Outdoors</option>
+        </select>
+        <div class="navigation">
+            <button class="prev round"><</button>
+            <button class="next rectangle">Submit</button>
+        </div>
+    </div>
+</section>
+
+<section id="Results">
+    <div class="Text">
+        <div id="destination"></div>
+        <div class="Text">
+            <div id="flipbook">
+                <div class="hard">
+                    <div class="hard" id="Text1">
+                    </div>
+
+                    </div>
+                    <div class="page" data-content=" ">
+                    </div>
+                    <div class="page">
+                        <div id="map1"></div>
+                    </div>
+                    <div class="page" data-content=" ">
+
+                    </div>
+                    <div class="page">
+                        <div id="map2"></div>
+                    </div>
+                    <div class="page">
+                        <div>
+                            <h2>Enjoy Your Trip!</h2>
+                        </div>
+                    </div>
+        </div>
+        <a id="download" href="#">
+            <img src="assets/images/download.png" alt="Download Icon" width="30" height="30">
+            Download
+        </a>
+    </div>
+    </div>
+</section>
+<script src="assets/scripts/jquery.js"></script>
+<script src="assets/scripts/turn.js"></script>
+<script src="assets/scripts/api.js"></script>
+<script src="assets/scripts/ui.js"></script>
+<script src="assets/scripts/maps.js"></script>
+<script src="assets/scripts/sakura.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="assets/scripts/sakura.js"></script>
+</body>
+
+</html>
