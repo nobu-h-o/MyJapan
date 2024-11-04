@@ -57,8 +57,8 @@ Preferences:
 Response format:
 Destination: <Name>
 Description: DAY 1:
-             DAY 2:
-             DAY 3:
+             DAY 2: if there is day 2
+             DAY 3: if there is day 3
              ...
 
 Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3.
