@@ -56,7 +56,10 @@ Preferences:
 
 Response format:
 Destination: <Name>
-Description: <Brief description written as itinerary listing by each day>
+Description: DAY 1:
+             DAY 2: if there is day 2
+             DAY 3: if there is day 3
+             ...
 
 Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3.
 `;
@@ -98,7 +101,7 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
 
                 // Display raw API response
                 destinationDiv.innerHTML = null;
-                const pages = text.split("Day");
+                const pages = text.split("DAY");
                 // Split by "Day" and store in array
                 $("#flipbook").show();
                 $("#flipbook").turn({
