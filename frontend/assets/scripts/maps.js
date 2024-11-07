@@ -16,22 +16,58 @@ async function loadGoogleMapsAPI() {
     }
 }
 
-async function initializeMaps() {
-    const MyLatLng1 = new google.maps.LatLng(35.6811673, 139.7670516);
-    const Options1 = {
-        zoom: 15,
-        center: MyLatLng1,
-        mapTypeId: 'roadmap'
-    };
-    const map1 = new google.maps.Map(document.getElementById('map1'), Options1);
+// Geocoding APIを使って地名から座標を取得
+async function geocodeAddress(geocoder, address) {
+    return new Promise((resolve, reject) => {
+        geocoder.geocode({ address: address }, (results, status) => {
+            if (status === 'OK') {
+                resolve(results[0].geometry.location);  // 座標を返す
+            } else {
+                console.error('Geocode failed for the following reason:', status);
+                reject(status);
+            }
+        });
+    });
+}
 
-    const MyLatLng2 = new google.maps.LatLng(35.6811673, 139.7670516);
-    const Options2 = {
-        zoom: 15,
-        center: MyLatLng2,
+async function initializeMaps() {
+    const mapOptions = {
+        zoom: 10,
+        center: { lat: 35.6811673, lng: 139.7670516 },
         mapTypeId: 'roadmap'
     };
-    const map2 = new google.maps.Map(document.getElementById('map2'), Options2);
+    const map1 = new google.maps.Map(document.getElementById('map1'), mapOptions);
+    const geocoder = new google.maps.Geocoder();
+    const bounds = new google.maps.LatLngBounds();
+
+    // 複数の地名を配列で指定
+    const locations = [
+        { address: 'Tokyo Station', title: 'Tokyo Station', color: 'red' },
+        { address: 'Waseda University', title: 'Waseda University', color: 'blue' },
+        { address: '赤レンガ倉庫', title: '赤レンガ倉庫', color: 'green' }
+    ];
+
+    for (const location of locations) {
+        try {
+            const position = await geocodeAddress(geocoder, location.address);
+            const iconUrl = `http://maps.google.com/mapfiles/ms/icons/${location.color}-dot.png`;
+
+            // マーカーを配置
+            new google.maps.Marker({
+                position: position,
+                map: map1,
+                title: location.title,
+                icon: iconUrl
+            });
+
+            bounds.extend(position);
+        } catch (error) {
+            console.error(`Error geocoding ${location.address}:`, error);
+        }
+    }
+
+    // すべてのピンが収まるように地図をリサイズ
+    map1.fitBounds(bounds);
 }
 
 (async function() {
