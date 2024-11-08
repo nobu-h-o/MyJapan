@@ -57,6 +57,8 @@ Preferences:
 Response format:
 Destination: <Name>
 Description: DAY 1:
+                        <br> 8:00 Place to visit; details
+                        <br> 12:00 Place to visit; details...
              DAY 2: if there is day 2
              DAY 3: if there is day 3
              ...
