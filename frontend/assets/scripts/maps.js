@@ -37,22 +37,33 @@ async function initializeMaps() {
         mapTypeId: 'roadmap'
     };
     const map1 = new google.maps.Map(document.getElementById('map1'), mapOptions);
+    const map2 = new google.maps.Map(document.getElementById('map2'), mapOptions);
     const geocoder = new google.maps.Geocoder();
-    const bounds = new google.maps.LatLngBounds();
+    const bounds1 = new google.maps.LatLngBounds();
+    const bounds2 = new google.maps.LatLngBounds();
 
-    // 複数の地名を配列で指定
-    const locations = [
-        { address: 'Tokyo Station', title: 'Tokyo Station', color: 'red' },
-        { address: 'Waseda University', title: 'Waseda University', color: 'blue' },
-        { address: '赤レンガ倉庫', title: '赤レンガ倉庫', color: 'green' }
+    // map1用のロケーション設定
+    const locations1 = [
+        { address: 'Kyoto Station', title: 'Kyoto Station', color: 'red' },
+        { address: 'Kiyomizu Temple', title: 'Kiyomizu Temple', color: 'blue' },
+        { address: 'Ginkaku-ji', title: 'Ginkaku-ji', color: 'green'},
+        { address: 'kawaramachi', title: 'kawaramachi', color: 'yellow'},
     ];
 
-    for (const location of locations) {
+    // map2用のロケーション設定
+    const locations2 = [
+        { address: 'Arashiyama', title: 'Arashiyama', color: 'red' },
+        { address: 'Tenryu-ji Temple', title: 'Tenryu-ji Temple', color: 'blue' },
+        { address: 'Kinkaku-ji Temple', title: 'Kinkaku-ji Temple', color: 'green'},
+        { address: 'Kitano Tenmangu Shrine', title: 'Kitano Tenmangu Shrine', color: 'yellow'}
+    ];
+
+    // map1にマーカーを配置
+    for (const location of locations1) {
         try {
             const position = await geocodeAddress(geocoder, location.address);
             const iconUrl = `http://maps.google.com/mapfiles/ms/icons/${location.color}-dot.png`;
 
-            // マーカーを配置
             new google.maps.Marker({
                 position: position,
                 map: map1,
@@ -60,14 +71,34 @@ async function initializeMaps() {
                 icon: iconUrl
             });
 
-            bounds.extend(position);
+            bounds1.extend(position);
         } catch (error) {
             console.error(`Error geocoding ${location.address}:`, error);
         }
     }
 
-    // すべてのピンが収まるように地図をリサイズ
-    map1.fitBounds(bounds);
+    // map2にマーカーを配置
+    for (const location of locations2) {
+        try {
+            const position = await geocodeAddress(geocoder, location.address);
+            const iconUrl = `http://maps.google.com/mapfiles/ms/icons/${location.color}-dot.png`;
+
+            new google.maps.Marker({
+                position: position,
+                map: map2,
+                title: location.title,
+                icon: iconUrl
+            });
+
+            bounds2.extend(position);
+        } catch (error) {
+            console.error(`Error geocoding ${location.address}:`, error);
+        }
+    }
+
+    // すべてのマーカーが表示されるようにマップを調整
+    map1.fitBounds(bounds1);
+    map2.fitBounds(bounds2);
 }
 
 (async function() {
