@@ -29,6 +29,13 @@
     position: relative;
 }
 
+#flipbook p{
+    font-size: 20px;
+    text-align: left;
+    line-height: 150%;
+    padding: 20px;
+}
+
 .page-number {
     position: absolute;
     bottom: 10px;
