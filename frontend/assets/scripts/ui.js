@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Next buttons
     const nextButtons = document.querySelectorAll('.next');
     nextButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default button behavior
 
             const currentSection = sections[currentSectionIndex];
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Previous buttons
     const prevButtons = document.querySelectorAll('.prev');
     prevButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default button behavior
 
             if (currentSectionIndex > 0) {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ageInput.value = currentValue + 1;
                 console.log('Age increased to:', ageInput.value);
             }
-            if(currentValue===120){
+            if (currentValue === 120) {
                 alert("Stop lying...");
             }
         });
@@ -124,12 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 daysInput.value = currentValue + 1;
                 console.log('Days increased to:', daysInput.value);
             }
-            if(currentValue===7){
+            if (currentValue === 7) {
                 alert("Sorry, we currently only support a trip that is up to 7 days long... :(");
             }
         });
     }
-
 
 
 
@@ -147,6 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 sections[currentSectionIndex].classList.add('visible');
                 console.log(`Navigated to section: ${sections[currentSectionIndex].id}`);
             }
+
         });
     }
+
+
 });

@@ -23,6 +23,9 @@ section {
 section.visible {
     display: block;
 }
+.invisible {
+    display: none;
+}
 
 button.round {
     margin: 10px;

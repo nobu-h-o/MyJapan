@@ -1,3 +1,5 @@
+import preference2 from './api';
+
 async function loadGoogleMapsAPI() {
     try {
         const response = await fetch('http://localhost:3000/api/google-maps-config');
@@ -36,7 +38,7 @@ async function initializeMaps() {
         center: { lat: 35.6811673, lng: 139.7670516 },
         mapTypeId: 'roadmap'
     };
-    const map1 = new google.maps.Map(document.getElementById('map1'), mapOptions);
+    const map1 = new google.maps.Map(document.getElementById(`map1`), mapOptions);
     const map2 = new google.maps.Map(document.getElementById('map2'), mapOptions);
     const geocoder = new google.maps.Geocoder();
     const bounds1 = new google.maps.LatLngBounds();
@@ -104,7 +106,10 @@ async function initializeMaps() {
 (async function() {
     try {
         await loadGoogleMapsAPI();
-        initializeMaps();
+        document.addEventListener('pagesLoaded', async () => {
+            console.log('Pages loaded. Initializing maps...');
+            await initializeMaps();
+        });
     } catch (error) {
         console.error('Error loading Google Maps API:', error);
     }

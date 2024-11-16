@@ -1,7 +1,10 @@
 // assets/scripts/api.js
 document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.querySelector('.start');
     // Ensure that submitData is available globally or appropriately exported/imported
     window.submitData = async () => {
+
+
         const sections = Array.from(document.querySelectorAll('section'));
         let currentSectionIndex = sections.findIndex(section => section.classList.contains('visible'));
 
@@ -26,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Gather user inputs
         const preference1 = document.getElementById('preference1').value;
-        const preference2 = document.getElementById('preference2').value;
+        export const preference2 = document.getElementById('preference2').value;
         const preference3 = document.getElementById('preference3').value;
         const preference4 = document.getElementById('preference4').value;
         const preference5 = document.getElementById('preference5').value;
@@ -41,6 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
             preference5,
             preference6
         });
+
+        const flipbook = document.getElementById('flipbook');
+        flipbook.innerHTML += '<div class="hard"><div class="hard" id="Text1"></div></div>';
+        for (let i = 1; i <= preference2; i++) {
+            flipbook.innerHTML += `
+            <div class="page" data-content=" "></div>
+            <div class="page">
+                <div id="map${i}"></div>
+            </div>`;
+        }
+        flipbook.innerHTML += '<div class="hard"><div class="hard"><h2>Enjoy Your Trip!</h2></div></div>';
+        document.dispatchEvent(new Event('pagesLoaded'));
+
 
         // Construct the prompt
         const prompt = `
@@ -99,7 +115,7 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
                 // JavaScriptの変数を定義
                 var destination = preference1;
                 var textDiv = document.getElementById("Text1");
-                textDiv.textContent = `Your ${destination}`;
+                textDiv.textContent = `Your ${destination} Trip`;
 
                 // Display raw API response
                 destinationDiv.innerHTML = null;
@@ -133,26 +149,29 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
                 console.log('Displayed raw API response in Results section.');
 
                 $("#download").show();
-                document.getElementById('download').addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default link behavior
-                    const { jsPDF } = window.jspdf;
+                document.getElementById('download').addEventListener('click', async () => {
+                    try {
+                        const doc = new jsPDF('landscape');  // 横向き（ランドスケープ）でPDFを作成
+                        const totalPages = $("#flipbook").turn("pages");
 
-                    const doc = new jsPDF();
-                    // Get the flipbook element
-                    $("#flipbook").show(); // Show flipbook
-                    const flipbookElement = document.getElementById('flipbook');
-                    console.log(flipbookElement.innerHTML); // Log flipbook content
+                        for (let i = 1; i <= totalPages; i++) {
+                            $("#flipbook").turn("page", i);
 
-                    // Use html method to add to PDF
-                    doc.html(flipbookElement, {
-                        callback: function (doc) {
-                            doc.save('download.pdf'); // Save PDF
-                        },
-                        width: 190, // Adjust width in PDF
-                        windowWidth: 800 // Original HTML width
-                    }).catch(error => {
-                        console.error("Error converting HTML:", error);
-                    });
+                            await new Promise(resolve => setTimeout(resolve, 500));  // ページが表示されるまで待機
+
+                            // ページをキャプチャ
+                            const canvas = await html2canvas($("#flipbook")[0]);
+                            const imgData = canvas.toDataURL("image/png");
+
+                            // 1ページ目はそのまま、2ページ目以降は新しいページを追加してから画像を追加
+                            if (i > 1) doc.addPage('landscape');
+                            doc.addImage(imgData, "PNG", 0, 0, 297, 210);  // 横向きのA4サイズ
+                        }
+
+                        doc.save('flipbook.pdf');
+                    } catch (error) {
+                        console.error('PDF生成エラー:', error);
+                    }
                 });
 
             } else {
