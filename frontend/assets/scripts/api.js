@@ -1,4 +1,3 @@
-// assets/scripts/api.js
 document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.querySelector('.start');
     // Ensure that submitData is available globally or appropriately exported/imported
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Gather user inputs
         const preference1 = document.getElementById('preference1').value;
-        export const preference2 = document.getElementById('preference2').value;
+        const preference2 = document.getElementById('preference2').value;
         const preference3 = document.getElementById('preference3').value;
         const preference4 = document.getElementById('preference4').value;
         const preference5 = document.getElementById('preference5').value;

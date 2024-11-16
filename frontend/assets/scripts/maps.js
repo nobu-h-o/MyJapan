@@ -1,5 +1,3 @@
-import preference2 from './api';
-
 async function loadGoogleMapsAPI() {
     try {
         const response = await fetch('http://localhost:3000/api/google-maps-config');
