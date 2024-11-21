@@ -1,4 +1,4 @@
-# MyJapan
+# MyJapan (WORK IN PROGRESS)
 [precise-rune-308803.de.r.appspot.com/](https://precise-rune-308803.de.r.appspot.com/)
 ## Description
 MyJapan is a web application that allows foreign tourists in Japan to get custom-made travel plans based on their preferences and personalities. It is available at the link in the 'about' section. Currently, it is unavailable on phones and other small screens.
