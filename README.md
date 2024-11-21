@@ -5,4 +5,7 @@ MyJapan is a web application that allows foreign tourists in Japan to get custom
 ## Technologies
 MyJapan uses vanilla JavaScript for the frontend, and Node.js and Express.js for the backend. It also uses the OpenAI API and Maps API to create the responses.
 ## For Devs
-You can run the app after installing Node.js in the backend directory.
+You can run this app locally after installing the node dependencies in the backend directory. Then run the following command.
+```
+npm start
+```
