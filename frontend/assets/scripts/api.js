@@ -50,11 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
             flipbook.innerHTML += `
             <div class="page" data-content=" "></div>
             <div class="page">
-                <div id="map${i}"></div>
+                <div id="map${i}" style="width: 100%; height: 100%;"></div>
             </div>`;
         }
         flipbook.innerHTML += '<div class="hard"><div class="hard"><h2>Enjoy Your Trip!</h2></div></div>';
-        document.dispatchEvent(new Event('pagesLoaded'));
+        document.dispatchEvent(new CustomEvent('pagesLoaded', { detail: { totalMaps: preference2 } }));
+
+        console.log(`Total Days: ${preference2}`);
+        console.log(`Total Maps: ${preference2}`);
 
 
         // Construct the prompt
@@ -99,7 +102,7 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
                         { role: "system", content: "You are an assistant that helps users plan their trips to Japan." },
                         { role: "user", content: prompt } // 'prompt' is your constructed prompt based on user inputs
                     ],
-                    max_tokens: 500,
+                    max_tokens: 1000,
                     temperature: 0.7,
                 })
             });
@@ -119,6 +122,12 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
                 // Display raw API response
                 destinationDiv.innerHTML = null;
                 const pages = text.split("DAY");
+                console.log(pages[1]);
+                console.log(pages[2]);
+                console.log(pages[3]);
+                console.log(pages[4]);
+                console.log(pages[5]);
+                console.log(pages[6]);
                 // Split by "Day" and store in array
                 $("#flipbook").show();
                 $("#flipbook").turn({
@@ -133,15 +142,28 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
                 $("#flipbook .page").each(function (index) {
                     const content = $(this).data("content");
                     if (content) {
-                        const [title] = content;
-                        $(this).html(`<div><h2>${title}</h2><p> Day${pages[(index + 2) / 2]}</p></div><div class="page-number">${index + 1}</div>`);
+                        const dayIndex = Math.floor(index / 2);
+                        console.log(dayIndex);
+                        console.log(index);
+                        console.log(pages.length);
+                        console.log(pages[dayIndex + 1]);
+
+                        if (dayIndex < pages.length) {
+                            $(this).html(`<div><p>Day${pages[dayIndex+1]}</p></div><div class="page-number">${dayIndex + 1}</div>`);
+
+                        }
                     }
+
+                    // if (content) {
+                    //     const [title] = content;
+                    //     $(this).html(`<div><h2>${title}</h2><p> Day${pages[(index + 2) / 2]}</p></div><div class="page-number">${index + 1}</div>`);
+                    // }
 
                     const pageNumber = $(this).find(".page-number");
                     if ((index) % 2 === 0) {
                         pageNumber.addClass("left-number");
                     } else {
-                        // pageNumber.addClass("right-number"); // Uncomment if needed
+                        pageNumber.addClass("right-number"); // Uncomment if needed
                     }
                 });
 
