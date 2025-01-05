@@ -1,6 +1,6 @@
 async function loadGoogleMapsAPI() {
     try {
-        const response = await fetch('http://localhost:3000/api/google-maps-config');
+        const response = await fetch(`/api/google-maps-config`);
         const data = await response.json();
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
