@@ -1,0 +1,21 @@
+{
+  "name": "myjapan",
+  "version": "1.0.0",
+  "description": "[precise-rune-308803.de.r.appspot.com/](https://precise-rune-308803.de.r.appspot.com/) ## Description MyJapan is a web application that allows foreign tourists in Japan to get custom-made travel plans based on their preferences and personalities. It is available at the link in the 'about' section. Currently, it is unavailable on phones and other small screens. ## Technologies MyJapan uses vanilla JavaScript for the frontend, and Node.js and Express.js for the backend. It also uses the OpenAI API and Maps API to create the responses. ## For Devs You can run this app locally after installing the node dependencies in the backend directory. Then run the following command. ``` npm start ```",
+  "homepage": "https://github.com/nobu-h-o/MyJapan#readme",
+  "bugs": {
+    "url": "https://github.com/nobu-h-o/MyJapan/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nobu-h-o/MyJapan.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node backend/server.js"
+  }
+}
