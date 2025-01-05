@@ -62,27 +62,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Construct the prompt
         const prompt = `
-Based on the following trip preferences, suggest the most appropriate itinerary in Japan and provide a brief description.
+            Based on the following trip preferences, suggest the most appropriate itinerary in Japan and provide a brief description.
 
-Preferences:
-1. Where are you visiting? ${preference1}
-2. How long is your trip? ${preference2} days
-3. How old are you? ${preference3}
-4. How do you feel about unknown places and experiences? ${preference4}
-5. What is the most important purpose of travel? ${preference5}
-6. Indoors or Outdoors? ${preference6}
+            Preferences:
+            1. Where are you visiting? ${preference1}
+            2. How long is your trip? ${preference2} days
+            3. How old are you? ${preference3}
+            4. How do you feel about unknown places and experiences? ${preference4}
+            5. What is the most important purpose of travel? ${preference5}
+            6. Indoors or Outdoors? ${preference6}
 
-Response format:
-Destination: <Name>
-Description: DAY 1:
-                        <br> 8:00 Place to visit; details
-                        <br> 12:00 Place to visit; details...
-             DAY 2: if there is day 2
-             DAY 3: if there is day 3
-             ...
+            Response format:
+            Destination: <Name>
+            Description: DAY 1:
+                                    <br> 8:00 Place to visit; details
+                                    <br> 12:00 Place to visit; details...
+                        DAY 2: if there is day 2
+                        DAY 3: if there is day 3
+                        ...
 
-Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3. Use around 100 words per day.
-`;
+            Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3. Use around 100 words per day.
+            `;
 
         console.log('Constructed Prompt:', prompt);
 
