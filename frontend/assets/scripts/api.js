@@ -87,7 +87,7 @@ Please respond in plain text without using any Markdown formatting. Don't put a 
         console.log('Constructed Prompt:', prompt);
 
         try {
-            const response2 = await fetch('http://localhost:3000/api/openai-config');
+            const response2 = await fetch(`/api/openai-config`);
             const data2 = await response2.json();
 
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
