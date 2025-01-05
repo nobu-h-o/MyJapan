@@ -81,7 +81,7 @@ Description: DAY 1:
              DAY 3: if there is day 3
              ...
 
-Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3.
+Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3. Use around 100 words per day.
 `;
 
         console.log('Constructed Prompt:', prompt);
