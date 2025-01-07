@@ -1,4 +1,3 @@
-// assets/scripts/navigation.js
 document.addEventListener('DOMContentLoaded', () => {
     const sections = Array.from(document.querySelectorAll('section'));
     let currentSectionIndex = 0;

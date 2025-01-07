@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.querySelector('.start');
     // Ensure that submitData is available globally or appropriately exported/imported
     window.submitData = async () => {
-
-
         const sections = Array.from(document.querySelectorAll('section'));
         let currentSectionIndex = sections.findIndex(section => section.classList.contains('visible'));
 
@@ -129,71 +127,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(pages[5]);
                 console.log(pages[6]);
                 // Split by "Day" and store in array
-                $("#flipbook").show();
-                $("#flipbook").turn({
-                    width: 800,
-                    height: 600,
-                    autoCenter: true,
-                    gradients: true,
-                    acceleration: true
-                });
+                
 
                 // Insert text into pages and add page numbers
-                $("#flipbook .page").each(function (index) {
-                    const content = $(this).data("content");
-                    if (content) {
-                        const dayIndex = Math.floor(index / 2);
-                        console.log(dayIndex);
-                        console.log(index);
-                        console.log(pages.length);
-                        console.log(pages[dayIndex + 1]);
-
-                        if (dayIndex < pages.length) {
-                            $(this).html(`<div><p>Day${pages[dayIndex+1]}</p></div><div class="page-number">${dayIndex + 1}</div>`);
-
-                        }
-                    }
-
-                    // if (content) {
-                    //     const [title] = content;
-                    //     $(this).html(`<div><h2>${title}</h2><p> Day${pages[(index + 2) / 2]}</p></div><div class="page-number">${index + 1}</div>`);
-                    // }
-
-                    const pageNumber = $(this).find(".page-number");
-                    if ((index) % 2 === 0) {
-                        pageNumber.addClass("left-number");
-                    } else {
-                        pageNumber.addClass("right-number"); // Uncomment if needed
-                    }
-                });
+                
 
                 console.log('Displayed raw API response in Results section.');
+                
+                // Code below writen in JQuery.
+                //
+                // $("#download").show();
+                // document.getElementById('download').addEventListener('click', async () => {
+                //     try {
+                //         const doc = new jsPDF('landscape');  // 横向き（ランドスケープ）でPDFを作成
+                //         const totalPages = $("#flipbook").turn("pages");
 
-                $("#download").show();
-                document.getElementById('download').addEventListener('click', async () => {
-                    try {
-                        const doc = new jsPDF('landscape');  // 横向き（ランドスケープ）でPDFを作成
-                        const totalPages = $("#flipbook").turn("pages");
+                //         for (let i = 1; i <= totalPages; i++) {
+                //             $("#flipbook").turn("page", i);
 
-                        for (let i = 1; i <= totalPages; i++) {
-                            $("#flipbook").turn("page", i);
+                //             await new Promise(resolve => setTimeout(resolve, 500));  // ページが表示されるまで待機
 
-                            await new Promise(resolve => setTimeout(resolve, 500));  // ページが表示されるまで待機
+                //             // ページをキャプチャ
+                //             const canvas = await html2canvas($("#flipbook")[0]);
+                //             const imgData = canvas.toDataURL("image/png");
 
-                            // ページをキャプチャ
-                            const canvas = await html2canvas($("#flipbook")[0]);
-                            const imgData = canvas.toDataURL("image/png");
+                //             // 1ページ目はそのまま、2ページ目以降は新しいページを追加してから画像を追加
+                //             if (i > 1) doc.addPage('landscape');
+                //             doc.addImage(imgData, "PNG", 0, 0, 297, 210);  // 横向きのA4サイズ
+                //         }
 
-                            // 1ページ目はそのまま、2ページ目以降は新しいページを追加してから画像を追加
-                            if (i > 1) doc.addPage('landscape');
-                            doc.addImage(imgData, "PNG", 0, 0, 297, 210);  // 横向きのA4サイズ
-                        }
-
-                        doc.save('flipbook.pdf');
-                    } catch (error) {
-                        console.error('PDF生成エラー:', error);
-                    }
-                });
+                //         doc.save('flipbook.pdf');
+                //     } catch (error) {
+                //         console.error('PDF生成エラー:', error);
+                //     }
+                // });
 
             } else {
                 console.error('Error from OpenAI:', data);
