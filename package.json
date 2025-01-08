@@ -13,14 +13,13 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "backend/server.js",
+  "main": "backend/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon backend/server.js"
+    "start": "node backend/server.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "nodemon": "^3.1.9"
+    "express": "^4.21.2"
   }
 }
