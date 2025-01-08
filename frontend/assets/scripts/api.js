@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Show loading message with spinner
-        const destinationDiv = document.getElementById('destination');
+        const destinationDiv = document.getElementById('loading');
         destinationDiv.innerHTML = `
             <div class="spinner"></div>
-            <p>Loading your recommended destination...</p>
+            <p>Loading Your Travel Plan...</p>
         `;
         console.log('Displayed loading spinner.');
 
