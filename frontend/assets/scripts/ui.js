@@ -1,4 +1,5 @@
-// assets/scripts/navigation.js
+let sakura = new Sakura('body');
+
 document.addEventListener('DOMContentLoaded', () => {
     const sections = Array.from(document.querySelectorAll('section'));
     let currentSectionIndex = 0;

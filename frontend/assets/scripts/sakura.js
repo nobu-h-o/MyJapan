@@ -1,1 +1,0 @@
-let sakura = new Sakura('body');
