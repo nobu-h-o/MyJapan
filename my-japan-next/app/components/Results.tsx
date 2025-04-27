@@ -39,9 +39,7 @@ export default function Results({ preferences }: ResultsProps) {
   const flipbookRef = useRef<HTMLDivElement>(null);
   const pageFlipInstance = useRef<PageFlip | null>(null);
 
-  // 初期データを設定
   useEffect(() => {
-    // このuseEffectでは最初に一度だけデータをフェッチする
     console.log('初期データを設定します');
     
     // propsからデータを作成
@@ -61,24 +59,21 @@ export default function Results({ preferences }: ResultsProps) {
     
     setUserData({ data: initialData });
     
-    // OpenAI APIを呼び出してプランを取得
     if (!hasFetchedData) {
       console.log('APIリクエストを開始します');
       fetchTravelPlan(initialData);
     }
     
-    // コンポーネントのクリーンアップ
     return () => {
-      console.log('Results component unmounting, cleaning up resources');
+      console.log('アンマウントに伴い、フリップブックを破棄します');
       if (pageFlipInstance.current) {
         pageFlipInstance.current.destroy();
         pageFlipInstance.current = null;
       }
       setIsInitialized(false);
     };
-  }, [preferences]); // preferencesが変わったときだけ再実行
+  }, [preferences]);
 
-  // モックレスポンスを生成する関数
   const generateMockResponse = (destination: string) => {
     return `
       Destination: ${destination || 'Tokyo'}
@@ -98,14 +93,12 @@ export default function Results({ preferences }: ResultsProps) {
                           <br> 19:00 Traditional Dinner; Experience local cuisine and cultural atmosphere.
     `;
   };
-
-  // スクリプトロード状態を追跡
+  
   const [scripts, setScripts] = useState({
     jspdf: false,
     html2canvas: false
   });
 
-  // 各スクリプトのロードを追跡
   const handleScriptLoad = (name: keyof typeof scripts) => {
     setScripts(prev => ({
       ...prev,
@@ -113,9 +106,7 @@ export default function Results({ preferences }: ResultsProps) {
     }));
   };
 
-  // OpenAI APIを呼び出して旅行プランを取得
   const fetchTravelPlan = async (data: TravelData) => {
-    // すでにデータを取得済みの場合はスキップ
     if (hasFetchedData) {
       console.log('すでにデータを取得済みのため、APIリクエストをスキップします');
       return;
@@ -123,38 +114,40 @@ export default function Results({ preferences }: ResultsProps) {
     
     // フェッチ開始前にフラグを設定（重複呼び出し防止）
     setHasFetchedData(true);
-    
     setLoading(true);
     setError(null);
     
     try {
-      console.log('Fetching travel plan with preferences:', data);
+      console.log('旅行プランの取得を開始します:', data);
       
       // プロンプトを構築
-      const prompt = `
-        Based on the following trip preferences, suggest the most appropriate itinerary in Japan and provide a brief description.
+      const prompt = 
+`Based on the following trip preferences, suggest the most appropriate itinerary in Japan and provide a brief description.
+Please ensure the plan covers exactly ${data.duration} days, with specific timeslots from 8:00 to 22:00 each day.
 
-        Preferences:
-        1. Where are you visiting? ${data.destination || ''}
-        2. How long is your trip? ${data.duration || ''} days
-        3. How old are you? ${data.age || ''}
-        4. How do you feel about unknown places and experiences? ${data.interests?.join(', ') || ''}
-        5. What is the most important purpose of travel? ${data.purpose || ''}
-        6. Indoors or Outdoors? ${data.outdoorPreference || ''}
+Preferences:
+1. Where are you visiting? ${data.destination || ''}
+2. How long is your trip? ${data.duration || ''} days
+3. How old are you? ${data.age || ''}
+4. How do you feel about unknown places and experiences? ${data.interests?.join(', ') || ''}
+5. What is the most important purpose of travel? ${data.purpose || ''}
+6. Indoors or Outdoors? ${data.outdoorPreference || ''}
 
-        Response format:
-        Destination: <n>
-        Description: DAY 1:
-                                <br> 8:00 Place to visit; details
-                                <br> 12:00 Place to visit; details...
-                    DAY 2: if there is day 2
-                    DAY 3: if there is day 3
-                    ...
+Response format:
+Destination: <n>
+Description: DAY 1:
+<br> timeslot1 | <b>Place to visit</b>
+<br> -- details (food, history, etc.)
+<br><br>
+...
+DAY ${data.duration}:
+<br> timeslot1 | <b>Place to visit</b>
+<br> -- details (food, history, etc.)
+<br><br>
 
-        Please respond in plain text without using any Markdown formatting. Don't put a line in between Destination and Description. Prioritize preference3. Use around 100 words per day.
-      `;
+Please respond in plain text without using any Markdown formatting. Ensure that each day is fully detailed and that the itinerary spans the full ${data.duration} days.`;
 
-      console.log('Sending API request with prompt...');
+      console.log('プロンプトを使用してAPIリクエストを送信中...');
       
       // APIリクエストの設定
       const response = await axios.post('/api/openai', { 
@@ -162,7 +155,7 @@ export default function Results({ preferences }: ResultsProps) {
         max_tokens: 2000
       });
       
-      console.log('Received API response:', response.data);
+      console.log('APIからの応答を受信しました:', response.data);
       
       // レスポンスからテキストを取得
       const responseText = response.data.text || '';
@@ -172,32 +165,31 @@ export default function Results({ preferences }: ResultsProps) {
       }
       
       // ユーザーデータを更新
-      setUserData(prevData => ({
+      setUserData(prev => ({
         data: {
-          ...prevData!.data,
+          ...prev!.data,
           response: responseText
         }
       }));
       
-      console.log('Updated user data with API response');
+      console.log('API応答でユーザーデータを更新しました');
       
     } catch (error: any) {
-      console.error('Error fetching travel plan:', error);
+      console.error('旅行プランの取得中にエラーが発生しました:', error);
       
       const errorMessage = error.response?.data?.error || error.message || '不明なエラーが発生しました';
       setError(`旅行プランの生成中にエラーが発生しました: ${errorMessage}`);
       
       // エラー時はモックデータを使用（フォールバック）
-      console.log('Using mock data as fallback');
-      setUserData(prevData => ({
+      console.log('フォールバックとしてモックデータを使用します');
+      setUserData(prev => ({
         data: {
-          ...prevData!.data,
-          response: generateMockResponse(prevData!.data.destination)
+          ...prev!.data,
+          response: generateMockResponse(prev!.data.destination)
         }
       }));
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   // レスポンスが利用可能かどうかをチェックする関数
@@ -381,27 +373,27 @@ export default function Results({ preferences }: ResultsProps) {
   // フリップブックを表示する関数
   const displayFlipbook = useCallback(() => {
     if (loading) {
-      console.log('Still loading, not displaying flipbook yet');
+      console.log('まだロード中のため、フリップブックを表示しません');
       return;
     }
     
     if (responseNotAvailable()) {
-      console.log('Response not available, not displaying flipbook');
+      console.log('応答が利用できないため、フリップブックを表示しません');
       return;
     }
     
     // flipbookRefを使用する
     if (flipbookRef.current) {
-      console.log('Displaying flipbook using ref');
+      console.log('参照を使用してフリップブックを表示します');
       initializeFlipbook(flipbookRef.current);
     } else {
       // バックアップとしてIDを使用
       const flipbookElement = document.getElementById('flipbook');
       if (flipbookElement) {
-        console.log('Displaying flipbook using ID');
+        console.log('IDを使用してフリップブックを表示します');
         initializeFlipbook(flipbookElement);
       } else {
-        console.error('Flipbook element not found');
+        console.error('フリップブック要素が見つかりません');
       }
     }
   }, [loading, responseNotAvailable, initializeFlipbook]);
@@ -510,7 +502,7 @@ export default function Results({ preferences }: ResultsProps) {
 
   // ロード完了時にフリップブックを表示
   useEffect(() => {
-    console.log('Load state changed to:', loading);
+    console.log('ロード状態が変更されました:', loading);
     if (!loading && userData && userData.data.response && !isInitialized) {
       // データがロードされ、まだ初期化されていない場合にのみフリップブックを表示
       console.log('ロード完了時にフリップブックを表示します');
