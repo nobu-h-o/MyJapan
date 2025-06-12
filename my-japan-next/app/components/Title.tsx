@@ -12,7 +12,7 @@ export default function Title({ onNext }: TitleProps) {
   useEffect(() => {
     // Sakuraオブジェクトが存在する場合（スクリプトがロード済みの場合）に初期化
     if (typeof window !== 'undefined' && window.Sakura) {
-      const sakura = new window.Sakura('body');
+      const sakura = new window.Sakura('html');
       
       // クリーンアップ関数
       return () => {
@@ -24,10 +24,11 @@ export default function Title({ onNext }: TitleProps) {
   return (
     <section id="Title" className="visible">
       <Script 
-        src="https://cdn.jsdelivr.net/gh/jhammann/sakura/dist/sakura.min.js"
+        src="https://cdn.jsdelivr.net/npm/sakura-js@1.1.1/dist/sakura.min.js"
+        strategy="afterInteractive"
         onLoad={() => {
           if (typeof window !== 'undefined' && window.Sakura) {
-            new window.Sakura('body');
+            new window.Sakura('html');
           }
         }}
       />
