@@ -6,6 +6,7 @@ import { PageFlip } from 'page-flip';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import axios from 'axios';
+import { loadGoogleMapsAPI } from '../utils/maps';
 
 interface ResultsProps {
   preferences: {
@@ -331,7 +332,7 @@ Please respond in plain text without using any Markdown formatting. Ensure that 
       element.innerHTML = html;
       
       // PageFlipの初期化を少し遅らせて、DOMが完全に更新されるのを待つ
-      setTimeout(() => {
+      setTimeout(async () => {
         try {
           // PageFlipを初期化
           pageFlipInstance.current = new PageFlip(element, {
@@ -352,6 +353,32 @@ Please respond in plain text without using any Markdown formatting. Ensure that 
           if (pages.length > 0) {
             pageFlipInstance.current.loadFromHTML(pages);
             console.log('PageFlipの初期化が完了しました、ページ数:', pages.length);
+            // Google Maps APIを一度だけ読み込み、その後地図を初期化
+            try {
+              console.log('Google Maps APIを読み込み中...');
+              await loadGoogleMapsAPI();
+              console.log('Google Maps API読み込み完了');
+              
+              // 各日の地図を初期化
+              const mapContainers = element.querySelectorAll('.map-container');
+              mapContainers.forEach((container, index) => {
+                console.log(`地図コンテナ ${index + 1} を初期化中...`);
+                const mapElement = container as HTMLElement;
+                
+                if (window.google && window.google.maps) {
+                  const mapOptions = {
+                    zoom: 10,
+                    center: { lat: 35.6811673, lng: 139.7670516 }, // 東京をデフォルト中心に
+                    mapTypeId: 'roadmap'
+                  };
+                  
+                  const map = new window.google.maps.Map(mapElement, mapOptions);
+                  console.log(`地図 ${index + 1} 初期化完了`);
+                }
+              });
+            } catch (error) {
+              console.error('地図の初期化中にエラーが発生しました:', error);
+            }
           } else {
             console.error('ページ要素が見つかりません');
             displaySimplePages(element);
@@ -470,10 +497,7 @@ Please respond in plain text without using any Markdown formatting. Ensure that 
           <div class="page">
             <div class="page-content">
               <h3>${day.day}の訪問先マップ</h3>
-              <div class="map-placeholder">
-                <p>${day.day}の主な訪問先</p>
-                <div class="map-container"></div>
-              </div>
+              <div id="map-day-${index + 1}" class="map-container"></div>
               <div class="page-footer">
                 ${destination} - ${day.day}のマップ
               </div>
@@ -775,26 +799,6 @@ Please respond in plain text without using any Markdown formatting. Ensure that 
           color: #777;
           text-align: center;
           width: 100%;
-        }
-        
-        /* 地図プレースホルダーのスタイル */
-        .map-placeholder {
-          width: 100%;
-          height: 70%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          background-color: #f5f5f5;
-          border-radius: 8px;
-          padding: 20px;
-          box-sizing: border-box;
-          text-align: center;
-        }
-        
-        .map-placeholder p {
-          margin-bottom: 20px;
-          color: #666;
         }
         
         .map-container {
